@@ -1,0 +1,138 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Figtree", system-ui, "Segoe UI", Roboto, sans-serif;
+
+  --color-ink: #0f2a33;
+  --color-ink2: #173b47;
+  --color-surface: #f2f6f7;
+  --color-card: #ffffff;
+  --color-line: #dbe5e8;
+  --color-txt: #14262d;
+  --color-mut: #5d7580;
+  --color-acc: #0e7c86;
+  --color-acc2: #0a5f67;
+  --color-ok: #2e8b57;
+  --color-warn: #c77d0a;
+  --color-bad: #c0392b;
+
+  --radius-card: 10px;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+  }
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+  body {
+    font-family: var(--font-sans);
+    background: var(--color-surface);
+    color: var(--color-txt);
+    font-size: 15px;
+    line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+  }
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+    color: inherit;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-acc);
+    outline-offset: 2px;
+  }
+  h1,
+    h2,
+    h3 {
+    font-weight: 700;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-card border border-line rounded-card p-[18px];
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-lg border border-line bg-white cursor-pointer font-semibold text-txt hover:bg-surface transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .btn-p {
+    @apply bg-acc border-acc text-white hover:bg-acc2;
+  }
+  .btn-d {
+    @apply text-bad border-[#efc5c0] hover:bg-[#fdecea];
+  }
+  .btn-s {
+    @apply px-2.5 py-1.5 text-[13px];
+  }
+  .btn-w {
+    @apply w-full mt-5;
+  }
+  .field {
+    @apply block w-full px-3 py-2.5 border border-line rounded-lg bg-white focus:border-acc;
+  }
+  .lbl {
+    @apply block font-semibold text-[13px] mt-3.5 mb-[5px];
+  }
+  .err {
+    @apply block text-[12px] text-bad mt-[3px] min-h-0;
+  }
+  .msg {
+    @apply mt-3.5 px-3 py-2.5 rounded-lg text-sm bg-[#fdecea] text-[#8a2a20];
+  }
+  .msg-ok {
+    @apply bg-[#e0f3e8] text-[#1f6b41];
+  }
+  .tag {
+    @apply inline-block px-[9px] py-[2px] rounded-full text-xs font-semibold;
+  }
+  .t-ok {
+    @apply bg-[#e0f3e8] text-[#1f6b41];
+  }
+  .t-warn {
+    @apply bg-[#fdf0d6] text-[#8a5700];
+  }
+  .t-bad {
+    @apply bg-[#fbe4e1] text-[#8a2a20];
+  }
+  .t-mut {
+    @apply bg-[#e8eef0] text-[#4a6069];
+  }
+  .link {
+    @apply bg-transparent border-0 text-acc cursor-pointer font-semibold p-0 hover:underline;
+  }
+  .ava {
+    @apply w-[34px] h-[34px] rounded-full bg-[#d3ecee] text-acc2 inline-grid place-items-center font-bold text-[13px] mr-2.5 align-middle;
+  }
+  .tbl th {
+    @apply text-left text-[13px] text-mut font-semibold px-3 py-2.5 border-b border-line;
+  }
+  .tbl td {
+    @apply px-3 py-3 border-b border-line align-middle;
+  }
+  .tbl tr:last-child td {
+    @apply border-b-0;
+  }
+  .inp-sm {
+    @apply w-auto px-2 py-[5px] text-sm border border-line rounded-lg bg-white focus:border-acc;
+  }
+  .navbtn {
+    @apply flex items-center gap-2.5 w-full text-left px-3 py-2.5 border-0 bg-transparent text-inherit rounded-lg cursor-pointer mb-[2px] hover:bg-ink2;
+  }
+  .navbtn-on {
+    @apply bg-acc text-white hover:bg-acc;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
