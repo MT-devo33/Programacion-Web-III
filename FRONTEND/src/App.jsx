@@ -6,85 +6,228 @@ import Auditoria from './views/Auditoria'
 import Citas from './views/Citas'
 import Consultas from './views/Consultas'
 import Dashboard from './views/Dashboard'
+import DashboardMedico from './views/DashboardMedico'
 import Pacientes from './views/Pacientes'
+import Medicos from './views/Medicos'
+import Agendas from './views/Agendas'
+import MiAgenda from './views/MiAgenda'
+import Historial from './views/Historial'
 import Reportes from './views/Reportes'
-import { seedCit, seedCon, seedLog, seedPac, seedUsers } from './data/seed'
-import { brw, now } from './data/utils'
+import {
+  usuarios,
+  pacientes,
+  medicos,
+  agendas,
+  citas,
+  consultas,
+  logs,
+  MENU,
+} from './data/seed'
+import { ahora, navegador, pacientesDelMedico } from './data/utils'
 
-const randomIp = () => '190.129.14.' + (10 + Math.floor(Math.random() * 200))
+const ipAleatoria = () => '190.129.14.' + (10 + Math.floor(Math.random() * 200))
 
 function App() {
-  const [users, setUsers] = useState(seedUsers)
-  const [pac, setPac] = useState(seedPac)
-  const [cit, setCit] = useState(seedCit)
-  const [con, setCon] = useState(seedCon)
-  const [log, setLog] = useState(seedLog)
-  const [auth, setAuth] = useState(null)
-  const [view, setView] = useState('dash')
-  const [selPac, setSelPac] = useState(1)
-  const [toastMsg, setToastMsg] = useState('')
-  const toastT = useRef(null)
-  const [ip] = useState(() => randomIp())
+  const [usuariosLista, setUsuariosLista] = useState(usuarios)
+  const [pacientesLista, setPacientesLista] = useState(pacientes)
+  const [medicosLista, setMedicosLista] = useState(medicos)
+  const [agendasLista, setAgendasLista] = useState(agendas)
+  const [citasLista, setCitasLista] = useState(citas)
+  const [consultasLista, setConsultasLista] = useState(consultas)
+  const [logsLista, setLogsLista] = useState(logs)
+  const [sesion, setSesion] = useState(null)
+  const [vista, setVista] = useState('dash')
+  const [pacienteSel, setPacienteSel] = useState(1)
+  const [aviso, setAviso] = useState({ texto: '', tipo: 'ok' })
+  const temporizadorAviso = useRef(null)
+  const [ip] = useState(() => ipAleatoria())
 
-  const toast = useCallback((t) => {
-    setToastMsg(t)
-    clearTimeout(toastT.current)
-    toastT.current = setTimeout(() => setToastMsg(''), 2200)
+  const mostrarAviso = useCallback((texto, tipo = 'ok') => {
+    setAviso({ texto, tipo })
+    clearTimeout(temporizadorAviso.current)
+    temporizadorAviso.current = setTimeout(() => setAviso({ texto: '', tipo: 'ok' }), 2600)
   }, [])
 
-  const addLog = useCallback(
+  const registrarEvento = useCallback(
     (ev, u) => {
-      const who = u || auth?.user || '-'
-      setLog((prev) => [[who, ip, ev, brw(), now()], ...prev])
+      const quien = u || sesion?.usuario || '-'
+      setLogsLista((prev) => [[quien, ip, ev, navegador(), ahora()], ...prev])
     },
-    [auth, ip],
+    [sesion, ip],
   )
 
-  const pn = (id) => pac.find((p) => p.id === id)
-
-  const logout = () => {
-    addLog('Salida')
-    setAuth(null)
-    setView('dash')
+  const iniciarSesion = (u) => {
+    setSesion({
+      usuario: u.usuario,
+      nombre: u.nombre,
+      rol: u.rol,
+      medicoId: u.medicoId ?? null,
+    })
+    setVista('dash')
   }
 
-  const renderContent = () => {
-    if (auth) {
-      const ctx = { toast, addLog }
-      const views = {
-        dash: <Dashboard pac={pac} cit={cit} pn={pn} />,
-        pac: <Pacientes pac={pac} setPac={setPac} role={auth.role} {...ctx} />,
-        cit: <Citas cit={cit} setCit={setCit} pac={pac} toast={toast} />,
-        con: (
-          <Consultas
-            pac={pac}
-            con={con}
-            setCon={setCon}
-            selPac={selPac}
-            setSelPac={setSelPac}
-            {...ctx}
+  const cerrarSesion = () => {
+    registrarEvento('Salida')
+    setSesion(null)
+    setVista('dash')
+    setPacienteSel(1)
+  }
+
+  const alVerHistorial = (pacId) => {
+    setPacienteSel(pacId)
+    setVista('his')
+  }
+
+  const alAtenderPaciente = (pacId) => {
+    setPacienteSel(pacId)
+    setVista('con')
+  }
+
+  const renderizarContenido = () => {
+    if (sesion) {
+      const permitidas = MENU.filter((m) => m[3].includes(sesion.rol)).map((m) => m[0])
+      const vistaActual = permitidas.includes(vista) ? vista : 'dash'
+      const contexto = { mostrarAviso, registrarEvento }
+      const propioMedico = medicosLista.find((m) => m.id === sesion.medicoId)
+      const misPacientes =
+        sesion.rol === 'medico'
+          ? pacientesDelMedico(pacientesLista, citasLista, consultasLista, sesion.medicoId)
+          : pacientesLista
+
+      const vistas = {
+        dash:
+          sesion.rol === 'medico' ? (
+            <DashboardMedico
+              citas={citasLista}
+              pacientes={misPacientes}
+              consultas={consultasLista}
+              medicoId={sesion.medicoId}
+              medico={propioMedico}
+              alAtender={alAtenderPaciente}
+              setVista={setVista}
+            />
+          ) : (
+            <Dashboard
+              pac={pacientesLista}
+              cit={citasLista}
+              med={medicosLista}
+              consultas={consultasLista}
+            />
+          ),
+        pac: (
+          <Pacientes
+            pacientesLista={pacientesLista}
+            setPacientesLista={setPacientesLista}
+            medicosLista={medicosLista}
+            consultasLista={consultasLista}
+            modo="recepcion"
+            {...contexto}
           />
         ),
-        rep: <Reportes pac={pac} con={con} user={auth.user} {...ctx} />,
-        aud: <Auditoria log={log} />,
+        med: (
+          <Medicos
+            medicosLista={medicosLista}
+            setMedicosLista={setMedicosLista}
+            agendasLista={agendasLista}
+            citasLista={citasLista}
+            {...contexto}
+          />
+        ),
+        age: (
+          <Agendas
+            medicosLista={medicosLista}
+            agendasLista={agendasLista}
+            setAgendasLista={setAgendasLista}
+            citasLista={citasLista}
+            {...contexto}
+          />
+        ),
+        cit: (
+          <Citas
+            citasLista={citasLista}
+            setCitasLista={setCitasLista}
+            pacientesLista={pacientesLista}
+            medicosLista={medicosLista}
+            {...contexto}
+          />
+        ),
+        rep: (
+          <Reportes
+            pacientesLista={pacientesLista}
+            medicosLista={medicosLista}
+            citasLista={citasLista}
+            consultasLista={consultasLista}
+            usuario={sesion.usuario}
+            medicoId={sesion.rol === 'medico' ? sesion.medicoId : null}
+            {...contexto}
+          />
+        ),
+        aud: <Auditoria logs={logsLista} />,
+        agm: (
+          <MiAgenda
+            citasLista={citasLista}
+            setCitasLista={setCitasLista}
+            pacientesLista={misPacientes}
+            agendasLista={agendasLista}
+            medicoId={sesion.medicoId}
+            medico={propioMedico}
+            alAtender={alAtenderPaciente}
+            {...contexto}
+          />
+        ),
+        misp: (
+          <Pacientes
+            pacientesLista={misPacientes}
+            setPacientesLista={setPacientesLista}
+            medicosLista={medicosLista}
+            consultasLista={consultasLista}
+            modo="medico"
+            alVerHistorial={alVerHistorial}
+            {...contexto}
+          />
+        ),
+        con: (
+          <Consultas
+            pacientesLista={misPacientes}
+            consultasLista={consultasLista}
+            setConsultasLista={setConsultasLista}
+            medicoId={sesion.medicoId}
+            pacienteSel={pacienteSel}
+            setPacienteSel={setPacienteSel}
+            {...contexto}
+          />
+        ),
+        his: (
+          <Historial
+            pacientesLista={misPacientes}
+            consultasLista={consultasLista}
+            medicoId={sesion.medicoId}
+            pacienteSel={pacienteSel}
+            setPacienteSel={setPacienteSel}
+          />
+        ),
       }
+
       return (
-        <Shell view={view} setView={setView} auth={auth} onLogout={logout}>
-          {views[view] ?? views.dash}
-        </Shell>
+        <Shell
+          vista={vistaActual}
+          setVista={setVista}
+          sesion={sesion}
+          alCerrarSesion={cerrarSesion}
+          hijos={vistas[vistaActual] ?? vistas.dash}
+        />
       )
     }
     return (
       <Login
-        users={users}
-        addLog={addLog}
-        onLogin={(u) => {
-          setAuth({ user: u.u, name: u.n, role: u.r })
-          setView('dash')
-        }}
-        onRegister={(u) =>
-          setUsers((prev) =>
-            prev.some((x) => x.u === u.u) ? prev.map((x) => (x.u === u.u ? u : x)) : [...prev, u],
+        usuarios={usuariosLista}
+        registrarEvento={registrarEvento}
+        alIniciarSesion={iniciarSesion}
+        alRegistrar={(u) =>
+          setUsuariosLista((prev) =>
+            prev.some((x) => x.usuario === u.usuario)
+              ? prev.map((x) => (x.usuario === u.usuario ? u : x))
+              : [...prev, u],
           )
         }
       />
@@ -93,8 +236,8 @@ function App() {
 
   return (
     <>
-      {renderContent()}
-      <Toast text={toastMsg} />
+      {renderizarContenido()}
+      <Toast texto={aviso.texto} tipo={aviso.tipo} />
     </>
   )
 }
