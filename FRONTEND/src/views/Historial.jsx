@@ -75,7 +75,7 @@ export default function Historial({
                   <FiHeart size={16} className="text-bad" /> Antecedentes
                 </h3>
                 <p className="text-[13px] text-mut">
-                  {paciente?.antecedentes || 'Sin antecedentes registrados.'}
+                  {paciente?.antecedentes || 'No refiere antecedentes.'}
                 </p>
               </div>
 

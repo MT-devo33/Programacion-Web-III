@@ -96,7 +96,7 @@ export default function Pacientes({
       tel: v.tel,
       sangre: v.sangre,
       medicoId: +v.medicoId,
-      antecedentes: v.antecedentes || 'Sin antecedentes registrados.',
+      antecedentes: v.antecedentes || 'No refiere antecedentes.',
     }
     if (formulario.id) {
       setPacientesLista((prev) => prev.map((p) => (p.id === formulario.id ? { ...p, ...datos } : p)))
@@ -226,7 +226,7 @@ export default function Pacientes({
                         </div>
                       </div>
                     </td>
-                    <td>{p.ci}</td>
+                    <td className="mono">{p.ci}</td>
                     <td>{p.edad}</td>
                     <td>{p.tel}</td>
                     <td>{p.sangre}</td>
@@ -270,7 +270,7 @@ export default function Pacientes({
               {!lista.length && (
                 <tr>
                   <td colSpan={8} className="text-mut">
-                    No hay pacientes con ese criterio. Prueba otra búsqueda o registra uno nuevo.
+                    No hay coincidencias con esos filtros. Pruebe con otro nombre o CI.
                   </td>
                 </tr>
               )}
@@ -389,7 +389,7 @@ export default function Pacientes({
               <FiActivity size={15} className="text-acc2" /> Antecedentes clínicos
             </h4>
             <p className="text-[13px] text-mut mt-1">
-              {detalle.antecedentes || 'Sin antecedentes registrados.'}
+              {detalle.antecedentes || 'No refiere antecedentes.'}
             </p>
           </div>
 

@@ -1,9 +1,10 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Figtree", system-ui, "Segoe UI", Roboto, sans-serif;
+  --font-sans: "IBM Plex Sans", system-ui, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", monospace;
 
-  /* Nueva paleta Beige + Verde Menta */
+  /* Beige cálido + menta apagada */
   --color-surface: #F8F7F3;      /* Fondo principal - beige muy claro */
   --color-ink: #DCECE3;          /* Menú lateral - verde menta pastel */
   --color-ink2: #CBD8D0;         /* Menú lateral hover/borde - menta un tono más */
@@ -120,6 +121,9 @@
   }
   .link {
     @apply bg-transparent border-0 text-acc2 cursor-pointer font-semibold p-0 hover:underline;
+  }
+  .mono {
+    @apply font-mono text-[0.92em] tracking-tight;
   }
   .ava {
     @apply w-[34px] h-[34px] rounded-full bg-sec text-txt inline-grid place-items-center font-bold text-[13px] mr-2.5 align-middle;

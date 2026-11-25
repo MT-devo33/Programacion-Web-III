@@ -176,7 +176,7 @@ export default function Consultas({
                 <FiActivity size={15} className="text-acc2" /> Antecedentes
               </h4>
               <p className="text-[12px] text-mut mt-1">
-                {pacienteActual?.antecedentes || 'Sin antecedentes registrados.'}
+                {pacienteActual?.antecedentes || 'No refiere antecedentes.'}
               </p>
             </div>
 

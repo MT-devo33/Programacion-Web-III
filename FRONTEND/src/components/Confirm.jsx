@@ -2,8 +2,8 @@ import { FiAlertTriangle } from 'react-icons/fi'
 import Modal from './Modal'
 
 export default function Confirm({
-  titulo = 'Confirmar acción',
-  mensaje = '¿Deseas continuar?',
+  titulo = 'Confirmar',
+  mensaje = '¿Confirma esta acción?',
   etiqueta = 'Confirmar',
   peligro = true,
   alCerrar,

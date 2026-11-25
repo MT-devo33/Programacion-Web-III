@@ -33,7 +33,7 @@ export default function Dashboard({ pac, cit, med }) {
 
   return (
     <>
-      <Head titulo="Panel de Recepción" subtitulo="Resumen operativo de la clínica.">
+      <Head titulo="Panel de Recepción" subtitulo="Lo que quedó pendiente y lo que se viene hoy.">
         <span className="tag t-info">Hoy · {formatearFecha(fechaHoy)}</span>
       </Head>
 
@@ -72,7 +72,7 @@ export default function Dashboard({ pac, cit, med }) {
         <div className="card">
           <div className="flex items-center justify-between gap-2 mb-2">
             <h3 className="text-base">Próximas citas</h3>
-            <span className="text-[11px] text-mut">{proximas.length} por atender</span>
+            <span className="text-[11px] text-mut">{proximas.length} en agenda</span>
           </div>
           {proximas.length ? (
             <div className="divide-y divide-line">
@@ -82,7 +82,7 @@ export default function Dashboard({ pac, cit, med }) {
                 return (
                   <div key={c.id} className="flex items-center gap-3 py-2.5">
                     <span className="w-12 shrink-0 text-center">
-                      <b className="block text-sm text-acc2">{c.hora}</b>
+                      <b className="mono block text-sm text-acc2">{c.hora}</b>
                       <small className="text-[10px] text-mut">{formatearFecha(c.fecha)}</small>
                     </span>
                     <span className="min-w-0 flex-1">
@@ -97,7 +97,7 @@ export default function Dashboard({ pac, cit, med }) {
               })}
             </div>
           ) : (
-            <p className="text-mut py-4">No hay citas próximas registradas.</p>
+            <p className="text-mut py-4">No quedan citas de aquí en adelante.</p>
           )}
         </div>
 
@@ -112,7 +112,7 @@ export default function Dashboard({ pac, cit, med }) {
               <span className="min-w-0 flex-1">
                 <b className="block text-[13px] truncate">{p.nom}</b>
                 <small className="text-mut block">
-                  CI {p.ci} · {formatearFecha(p.fechaRegistro)}
+                  CI <span className="mono">{p.ci}</span> · {formatearFecha(p.fechaRegistro)}
                 </small>
               </span>
               <span className={`tag ${p.estado ? 't-ok' : 't-mut'}`}>{p.estado ? 'Activo' : 'De baja'}</span>

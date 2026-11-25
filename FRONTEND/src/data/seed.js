@@ -171,7 +171,7 @@ export const pacientes = [
     nom: 'Ana Salazar Rojas',
     ci: '7765432 SC',
     edad: 41,
-    tel: '69004455',
+    tel: '6900-4455',
     sangre: 'AB+',
     estado: 1,
     medicoId: 1,
@@ -210,7 +210,7 @@ export const pacientes = [
     tel: '79874561',
     sangre: 'B-',
     estado: 0,
-    medicoId: 4,
+    medicoId: null,
     fechaRegistro: fechaRel(-4),
     antecedentes: 'Fractura de tibia en 2023. Sedentario.',
   },
@@ -231,7 +231,7 @@ export const citas = [
   { id: 12, pac: 5, med: 1, fecha: fechaRel(3), hora: '14:00', motivo: 'Chequeo general', estado: 'Pendiente' },
   { id: 13, pac: 4, med: 2, fecha: fechaRel(4), hora: '10:00', motivo: 'Control de presión', estado: 'Pendiente' },
   { id: 14, pac: 6, med: 3, fecha: fechaRel(5), hora: '09:00', motivo: 'Revisión de asma', estado: 'Pendiente' },
-  { id: 15, pac: 1, med: 1, fecha: fechaRel(-8), hora: '08:30', motivo: 'Control mensual', estado: 'Atendida' },
+  { id: 15, pac: 1, med: 1, fecha: fechaRel(1), hora: '08:30', motivo: 'Control mensual · canceló el paciente', estado: 'Cancelada' },
 ]
 
 export const consultas = [
@@ -253,7 +253,7 @@ export const consultas = [
     motivo: 'Dolor de cabeza',
     diagnostico: 'Cefalea tensional',
     tratamiento: 'Paracetamol 500 mg si hay dolor. Reducir cafeína.',
-    observaciones: 'Sin signos de alarma neurológica.',
+    observaciones: 'Sin signos de alarma. Refiere mucho café en el trabajo; control en 15 días.',
   },
   {
     id: 3,
@@ -283,7 +283,7 @@ export const consultas = [
     motivo: 'Control de presión',
     diagnostico: 'Hipertensión arterial controlada',
     tratamiento: 'Enalapril 10 mg cada 12 h. Dieta hiposódica.',
-    observaciones: 'Paciente estable. Se ajusta seguimiento a 30 días.',
+    observaciones: 'Paciente estable. Trajo el informe de laboratorio; control en 30 días.',
   },
   {
     id: 6,
@@ -302,5 +302,5 @@ export const logs = [
   ['recepcion', '190.129.14.31', 'Paciente creado', 'Firefox', '06/10/2026 08:40'],
   ['dra.ramirez', '190.129.14.22', 'Ficha clínica exportada', 'Chrome', '06/10/2026 09:05'],
   ['desconocido', '181.115.2.9', 'Intento fallido (2/3)', 'Edge', '05/10/2026 22:47'],
-  ['recepcion', '190.129.14.10', 'Cita reprogramada', 'Chrome', '05/10/2026 17:30'],
+  ['recepcion', '190.129.14.10', 'Cita cancelada', 'Chrome', '05/10/2026 17:30'],
 ]

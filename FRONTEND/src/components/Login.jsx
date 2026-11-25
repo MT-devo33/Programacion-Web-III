@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { FiActivity, FiHeart, FiLock, FiRefreshCw, FiUser, FiUsers } from 'react-icons/fi'
+import { FiActivity, FiLock, FiRefreshCw, FiUser, FiUsers } from 'react-icons/fi'
 import { correoValido, nivelContrasena, textoContrasena, colorContrasena } from '../data/utils'
 
 const TIEMPO_BLOQUEO = 60 // demo: 60 s. El backend decide el tiempo real (ej. 5 min)
@@ -113,10 +113,10 @@ export default function Login({ usuarios, alIniciarSesion, alRegistrar, registra
 
   const accesoDemo = (rol) => {
     const demo = usuarios.find((x) => x.rol === rol)
-    if (!demo) return setMensaje({ t: 'No hay un usuario de demostración para este rol.' })
+    if (!demo) return setMensaje({ t: 'No hay credenciales de prueba para este perfil.' })
     setIntentos(0)
     setMensaje(null)
-    registrarEvento('Ingreso (demostración)', demo.usuario)
+    registrarEvento('Ingreso (perfil de prueba)', demo.usuario)
     alIniciarSesion(demo)
   }
 
@@ -141,7 +141,7 @@ export default function Login({ usuarios, alIniciarSesion, alRegistrar, registra
     setRegistro({ nombre: '', usuario: '', correo: '', contrasena: '', contrasena2: '' })
     setPestana('vLogin')
     setUsuario(gu)
-    setMensaje({ t: 'Cuenta creada. Ya puedes iniciar sesión.', ok: true })
+    setMensaje({ t: 'Cuenta creada. Ya puede ingresar.', ok: true })
   }
 
   const enviarCodigo = () => {
@@ -177,10 +177,15 @@ export default function Login({ usuarios, alIniciarSesion, alRegistrar, registra
     <section className="min-h-full grid md:grid-cols-[1.1fr_1fr] overflow-x-hidden">
       <div className="hidden md:flex bg-ink p-14 flex-col justify-between">
         <div className="flex items-center gap-2.5 text-txt font-bold text-lg">
-          <span className="bg-acc w-[30px] h-[30px] rounded-lg grid place-items-center text-base text-txt">
-            <FiHeart size={18} />
+          <span className="bg-acc w-[30px] h-[30px] rounded-lg grid place-items-center text-[13px] font-bold text-txt">
+            SR
           </span>
-          SGP
+          <span className="leading-tight">
+            SGP
+            <small className="block text-[10px] font-medium uppercase tracking-wide text-mut">
+              Clínica San Rafael
+            </small>
+          </span>
         </div>
         <div className="flex-1 flex flex-col items-center justify-center text-center">
           <Pulse />
@@ -188,31 +193,31 @@ export default function Login({ usuarios, alIniciarSesion, alRegistrar, registra
             Sistema de Gestión de Pacientes
           </h1>
           <p className="max-w-[40ch] text-mut mt-3.5 text-lg">
-            Organización clínica eficiente y segura.
+            Agendas, consultas y fichas del día en un solo lugar.
           </p>
         </div>
         <small className="text-mut max-w-[38ch] text-center">
-          Ingresa con tu usuario y contraseña
+          Uso interno · Clínica San Rafael
         </small>
       </div>
 
       <div className="grid place-items-center p-4 sm:p-6 md:p-8 w-full min-w-0">
         <div className="w-full max-w-[400px] min-w-0 bg-card border border-line rounded-card shadow-sm p-5 sm:p-6">
           <div className="md:hidden flex items-center gap-2.5 mb-5">
-            <span className="bg-acc w-[34px] h-[34px] rounded-xl grid place-items-center text-txt">
-              <FiHeart size={19} />
+            <span className="bg-acc w-[34px] h-[34px] rounded-xl grid place-items-center text-[13px] font-bold text-txt">
+              SR
             </span>
             <span className="leading-tight">
               <b className="block text-txt">SGP</b>
               <small className="block text-[10px] uppercase tracking-wide text-mut">
-                Gestión de pacientes
+                Clínica San Rafael
               </small>
             </span>
           </div>
           {pestana === 'vLogin' && (
             <>
-              <h2 className="text-2xl mb-1">Acceso al sistema</h2>
-              <p className="text-mut mb-4">Selecciona tu perfil para continuar.</p>
+              <h2 className="text-2xl mb-1">Ingreso al sistema</h2>
+              <p className="text-mut mb-4">Selecciona tu perfil para empezar el turno.</p>
 
               <div className="grid grid-cols-2 gap-2.5">
                 <button

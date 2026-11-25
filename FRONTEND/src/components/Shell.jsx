@@ -1,5 +1,4 @@
 import {
-  FiActivity,
   FiBriefcase,
   FiCalendar,
   FiClipboard,
@@ -33,13 +32,13 @@ export default function Shell({ vista, setVista, sesion, alCerrarSesion, hijos }
     <div className="min-h-full lg:grid lg:grid-cols-[250px_1fr]">
       <aside className="bg-ink text-txt flex flex-wrap lg:flex-col lg:sticky lg:top-0 lg:h-screen p-2.5 lg:p-5">
         <div className="flex items-center gap-2.5 font-bold text-lg px-2 py-1 lg:pb-5">
-          <span className="bg-acc w-[32px] h-[32px] rounded-lg grid place-items-center text-txt">
-            <FiActivity size={19} />
+          <span className="bg-acc w-[32px] h-[32px] rounded-lg grid place-items-center text-[13px] font-bold tracking-tight text-txt">
+            SR
           </span>
           <span className="leading-tight">
             SGP
             <small className="block text-[10px] font-medium tracking-wide text-mut uppercase">
-              Gestión de pacientes
+              Clínica San Rafael
             </small>
           </span>
         </div>
@@ -48,7 +47,7 @@ export default function Shell({ vista, setVista, sesion, alCerrarSesion, hijos }
           <span className="w-2 h-2 rounded-full bg-acc" />
           <div className="text-[12px] leading-tight">
             <b className="block text-txt">{ROLES[sesion.rol]}</b>
-            <span className="text-mut">Modo demostración</span>
+            <span className="text-mut">Sede La Paz · Ambulatorio</span>
           </div>
         </div>
 

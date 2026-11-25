@@ -172,7 +172,7 @@ export default function Reportes({
         'Estado: ' + (p.estado ? 'Activo' : 'De baja'),
         '',
         'Antecedentes clínicos',
-        p.antecedentes || 'Sin antecedentes registrados.',
+        p.antecedentes || 'No refiere antecedentes.',
         '',
         'Historial de consultas',
       ],

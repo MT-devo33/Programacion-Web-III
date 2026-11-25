@@ -1,15 +1,15 @@
 const tonos = {
-  acc: { borde: 'border-l-acc2', fondo: 'bg-sec text-txt' },
-  warn: { borde: 'border-l-warn', fondo: 'bg-warn text-warn-txt' },
-  ok: { borde: 'border-l-ok', fondo: 'bg-ok text-ok-txt' },
-  bad: { borde: 'border-l-bad', fondo: 'bg-bad text-bad-txt' },
-  info: { borde: 'border-l-info', fondo: 'bg-info text-info-txt' },
+  acc: { fondo: 'bg-sec text-txt' },
+  warn: { fondo: 'bg-warn text-warn-txt' },
+  ok: { fondo: 'bg-ok text-ok-txt' },
+  bad: { fondo: 'bg-bad text-bad-txt' },
+  info: { fondo: 'bg-info text-info-txt' },
 }
 
 export default function Stat({ icono: Icono, etiqueta, valor, detalle, tono = 'acc' }) {
   const t = tonos[tono] ?? tonos.acc
   return (
-    <div className={`card border-l-4 ${t.borde} flex items-center justify-between gap-3 min-h-[94px]`}>
+    <div className="card flex items-center justify-between gap-3 min-h-[94px]">
       <div className="min-w-0">
         <small className="block text-mut leading-tight">{etiqueta}</small>
         <strong className="text-[30px] font-bold leading-tight block">{valor}</strong>
